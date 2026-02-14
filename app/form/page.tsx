@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic'
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -7,7 +6,11 @@ import BackToHome from '@/components/back-to-home';
 import { FaUserInjured, FaUserMd, FaIdCard, FaFileMedical, FaHeartbeat, FaHospitalSymbol, FaCheckCircle, FaFilePdf } from 'react-icons/fa';
 import { useRef } from "react";
 export default function Form() {
-  const supabase = createClient();
+ const [supabase, setSupabase] = useState<any>(null);
+
+useEffect(() => {
+  setSupabase(createClient());
+}, []);
   const [age, setAge] = useState<number | ''>('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -23,6 +26,8 @@ export default function Form() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!supabase) return;
+
     const form = e.currentTarget as HTMLFormElement;
     setLoading(true);
 
